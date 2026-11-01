@@ -1,0 +1,49 @@
+{
+  "head-panel": {
+    "type": "header",
+    "description": "In the panel"
+  },
+  "show-temp": {
+    "type": "switch",
+    "default": true,
+    "description": "Show the CPU temperature"
+  },
+  "show-rpm": {
+    "type": "switch",
+    "default": true,
+    "description": "Show the fan RPM"
+  },
+  "temp-warning": {
+    "type": "spinbutton",
+    "default": 85,
+    "min": 60,
+    "max": 100,
+    "step": 1,
+    "units": "°C",
+    "description": "Turn red from",
+    "tooltip": "The panel label turns red when the CPU reaches this temperature."
+  },
+  "head-menu": {
+    "type": "header",
+    "description": "In the right-click menu"
+  },
+  "show-menu-readings": {
+    "type": "switch",
+    "default": true,
+    "description": "Show temperature and RPM in the menu"
+  },
+  "head-readings": {
+    "type": "header",
+    "description": "Readings"
+  },
+  "refresh-interval": {
+    "type": "spinbutton",
+    "default": 2,
+    "min": 1,
+    "max": 10,
+    "step": 1,
+    "units": "seconds",
+    "description": "Refresh every",
+    "tooltip": "Each reading is two tiny /sys files, so the load is negligible. If panel readings are off, sensors are only read while the menu is open."
+  }
+}

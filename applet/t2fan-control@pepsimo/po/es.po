@@ -1,0 +1,236 @@
+# Spanish translation of the T2 Fan (AUTO / MAX) Cinnamon applet.
+# This file is distributed under the same license as the project (GPL-3.0-or-later).
+msgid ""
+msgstr ""
+"Project-Id-Version: t2fan-control\n"
+"Report-Msgid-Bugs-To: https://github.com/pepsimo/t2fan-control/issues\n"
+"PO-Revision-Date: 2026-11-01 17:00+0100\n"
+"Last-Translator: pepsimo\n"
+"Language-Team: Spanish\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: applet.js:44
+msgid "Strong"
+msgstr "Fuerte"
+
+#. Panel tag for the Strong profile: translate only the letter before '|'.
+#: applet.js:44
+msgid "S|Strong"
+msgstr "F"
+
+#: applet.js:45
+msgid "40–60 °C · logarithmic curve"
+msgstr "40–60 °C · curva logarítmica"
+
+#: applet.js:46
+msgid "Medium"
+msgstr "Medio"
+
+#. Panel tag for the Medium profile: translate only the letter before '|'.
+#: applet.js:46
+msgid "M|Medium"
+msgstr "M"
+
+#: applet.js:47
+msgid "50–75 °C · linear curve"
+msgstr "50–75 °C · curva lineal"
+
+#: applet.js:48
+msgid "Quiet"
+msgstr "Silencioso"
+
+#. Panel tag for the Quiet profile: translate only the letter before '|'.
+#: applet.js:48
+msgid "Q|Quiet"
+msgstr "S"
+
+#: applet.js:49
+msgid "60–85 °C · exponential curve"
+msgstr "60–85 °C · curva exponencial"
+
+#: applet.js:54
+msgid "linear"
+msgstr "lineal"
+
+#: applet.js:55
+msgid "exponential"
+msgstr "exponencial"
+
+#: applet.js:56
+msgid "logarithmic"
+msgstr "logarítmica"
+
+#: applet.js:124
+msgid "Fan at full speed (MAX)"
+msgstr "Ventilador al máximo (MAX)"
+
+#: applet.js:129
+msgid "AUTO profile"
+msgstr "Perfil AUTO"
+
+#: applet.js:168 applet.js:174
+msgid "no reading"
+msgstr "sin lectura"
+
+#: applet.js:169
+msgid "CPU: {value}"
+msgstr "CPU: {value}"
+
+#: applet.js:170
+msgid "Fan: {value}"
+msgstr "Ventilador: {value}"
+
+#: applet.js:180
+msgid "({pct} %, range {min}–{max})"
+msgstr "({pct} %, rango {min}–{max})"
+
+#: applet.js:202
+msgid "Check the installation (install.sh)."
+msgstr "Revisa la instalación (install.sh)."
+
+#: applet.js:203
+msgid "T2 Fan"
+msgstr "Ventilador T2"
+
+#: applet.js:203
+msgid "Could not change the fan mode."
+msgstr "No se pudo cambiar el modo del ventilador."
+
+#: applet.js:299
+msgid "not installed"
+msgstr "sin instalar"
+
+#: applet.js:326
+msgid "Cannot read the t2fanrd status."
+msgstr "No se puede leer el estado de t2fanrd."
+
+#: applet.js:327
+msgid "Helper script missing: run install.sh."
+msgstr "Falta el script auxiliar: ejecuta install.sh."
+
+#: applet.js:329
+msgid "Fan at FULL speed."
+msgstr "Ventilador al MÁXIMO."
+
+#: applet.js:333
+msgid "AUTO · {profile} profile ({low}–{high} °C, {curve})"
+msgstr "AUTO · perfil {profile} ({low}–{high} °C, {curve})"
+
+#: applet.js:334
+msgid "AUTO · custom ({low}–{high} °C, {curve})"
+msgstr "AUTO · personalizado ({low}–{high} °C, {curve})"
+
+#: applet.js:340
+msgid "Temperature above {temp} °C"
+msgstr "Temperatura por encima de {temp} °C"
+
+#: applet.js:341
+msgid "Click: AUTO ↔ MAX · Right-click: profiles and options"
+msgstr "Clic: AUTO ↔ MAX · Clic derecho: perfiles y opciones"
+
+#: metadata.json->name
+msgid "T2 Fan (AUTO / MAX)"
+msgstr "Ventilador T2 (AUTO / MAX)"
+
+#: metadata.json->description
+msgid ""
+"Fan control for Intel Macs with the Apple T2 chip running Linux (t2fanrd "
+"service): one click toggles AUTO and MAX, with Strong, Medium and Quiet AUTO"
+" profiles and live CPU temperature and fan RPM."
+msgstr ""
+"Control del ventilador de los Mac Intel con chip Apple T2 en Linux (servicio"
+" t2fanrd): un clic cambia entre AUTO y MAX, con perfiles AUTO Fuerte, Medio "
+"y Silencioso, y temperatura de la CPU y RPM del ventilador en directo."
+
+#: metadata.json->comments
+msgid ""
+"Left click: AUTO ↔ MAX.\n"
+"Right click: AUTO profile, live readings and options.\n"
+"\n"
+"AUTO profiles:\n"
+"  Strong: 40–60 °C, logarithmic curve\n"
+"  Medium: 50–75 °C, linear curve\n"
+"  Quiet: 60–85 °C, exponential curve\n"
+"\n"
+"Requires t2fanrd (t2linux project) and Cinnamon.\n"
+"Tested on a Mac mini 2018 (Macmini8,1) with Cinnamon 6.6.\n"
+"\n"
+"Author: pepsimo — https://www.pepsimo.es\n"
+"Co-author: Claude Opus 5.5 (Anthropic)\n"
+"Source code and documentation: https://github.com/pepsimo/t2fan-control\n"
+"License: GPL-3.0-or-later. No warranty of any kind."
+msgstr ""
+"Clic izquierdo: AUTO ↔ MAX.\n"
+"Clic derecho: perfil AUTO, lecturas en directo y opciones.\n"
+"\n"
+"Perfiles AUTO:\n"
+"  Fuerte: 40–60 °C, curva logarítmica\n"
+"  Medio: 50–75 °C, curva lineal\n"
+"  Silencioso: 60–85 °C, curva exponencial\n"
+"\n"
+"Requiere t2fanrd (proyecto t2linux) y Cinnamon.\n"
+"Probado en un Mac mini 2018 (Macmini8,1) con Cinnamon 6.6.\n"
+"\n"
+"Autor: pepsimo — https://www.pepsimo.es\n"
+"Coautor: Claude Opus 5.5 (Anthropic)\n"
+"Código fuente y documentación: https://github.com/pepsimo/t2fan-control\n"
+"Licencia: GPL-3.0-or-later. Sin ninguna garantía."
+
+#: settings-schema.json->head-panel->description
+msgid "In the panel"
+msgstr "En la barra"
+
+#: settings-schema.json->show-temp->description
+msgid "Show the CPU temperature"
+msgstr "Mostrar la temperatura de la CPU"
+
+#: settings-schema.json->show-rpm->description
+msgid "Show the fan RPM"
+msgstr "Mostrar las RPM del ventilador"
+
+#: settings-schema.json->temp-warning->description
+msgid "Turn red from"
+msgstr "Poner en rojo a partir de"
+
+#: settings-schema.json->temp-warning->tooltip
+msgid "The panel label turns red when the CPU reaches this temperature."
+msgstr ""
+"La etiqueta de la barra se pone en rojo cuando la CPU llega a esta "
+"temperatura."
+
+#: settings-schema.json->temp-warning->units
+msgid "°C"
+msgstr "°C"
+
+#: settings-schema.json->head-menu->description
+msgid "In the right-click menu"
+msgstr "En el menú del clic derecho"
+
+#: settings-schema.json->show-menu-readings->description
+msgid "Show temperature and RPM in the menu"
+msgstr "Mostrar temperatura y RPM en el menú"
+
+#: settings-schema.json->head-readings->description
+msgid "Readings"
+msgstr "Lecturas"
+
+#: settings-schema.json->refresh-interval->description
+msgid "Refresh every"
+msgstr "Actualizar cada"
+
+#: settings-schema.json->refresh-interval->tooltip
+msgid ""
+"Each reading is two tiny /sys files, so the load is negligible. If panel "
+"readings are off, sensors are only read while the menu is open."
+msgstr ""
+"Cada lectura son dos archivos diminutos de /sys: la carga es despreciable. "
+"Si las lecturas de la barra están desactivadas, los sensores solo se leen "
+"con el menú abierto."
+
+#: settings-schema.json->refresh-interval->units
+msgid "seconds"
+msgstr "segundos"

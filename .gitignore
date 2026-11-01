@@ -1,0 +1,7 @@
+*~
+*.po~
+*.bak
+__pycache__/
+*.tar.gz
+.vscode/
+.idea/

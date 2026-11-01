@@ -1,0 +1,128 @@
+#!/bin/sh
+# t2fan-control — helper script for the "T2 Fan (AUTO / MAX)" Cinnamon applet.
+# https://github.com/pepsimo/t2fan-control
+#
+# Changes the mode of the fan managed by t2fanrd (Intel Macs with the Apple T2
+# chip) by editing /etc/t2fand.conf and restarting the service.
+#
+#   t2fan-control on        -> MAX  (fan always at full speed)
+#   t2fan-control off       -> AUTO (speed follows temperature)
+#   t2fan-control strong    -> AUTO, Strong profile  (40-60 °C, logarithmic)
+#   t2fan-control medium    -> AUTO, Medium profile  (50-75 °C, linear)
+#   t2fan-control quiet     -> AUTO, Quiet profile   (60-85 °C, exponential)
+#   t2fan-control status    -> "<max|auto> <profile|custom> <low> <high> <curve>"
+#   t2fan-control paths     -> sysfs paths of the fan and CPU temperature sensors
+#   t2fan-control restore   -> restore the /etc/t2fand.conf backup made on first change
+#   t2fan-control version   -> print the version
+#
+# Security: only these fixed words are accepted — never numbers or free text.
+# status, paths and version do not need root.
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -u
+PATH=/usr/sbin:/usr/bin:/sbin:/bin
+export PATH
+umask 022
+
+VERSION=2.1.0
+CONF=/etc/t2fand.conf
+BACKUP=/etc/t2fand.conf.t2fan-control.bak
+SERVICE=t2fanrd
+LOCK=/run/t2fan-control.lock
+
+die()   { echo "t2fan-control: $*" >&2; exit 1; }
+usage() { echo "Usage: t2fan-control on|off|strong|medium|quiet|status|paths|restore|version" >&2; exit 2; }
+
+# First value of a key (every [FanN] section gets the same values).
+get() {
+    sed -n -E "s/^[[:space:]]*${1}[[:space:]]*=[[:space:]]*([^[:space:]]+).*/\1/p" "$CONF" | head -n 1
+}
+
+do_status() {
+    [ -r "$CONF" ] || die "$CONF not found (is t2fanrd installed?)"
+    full=$(get always_full_speed)
+    lo=$(get low_temp)
+    hi=$(get high_temp)
+    cu=$(get speed_curve)
+    case "$lo/$hi/$cu" in
+        40/60/logarithmic) prof=strong ;;
+        50/75/linear)      prof=medium ;;
+        60/85/exponential) prof=quiet  ;;
+        *)                 prof=custom ;;
+    esac
+    if [ "$full" = "true" ]; then mode=max; else mode=auto; fi
+    echo "$mode $prof ${lo:-?} ${hi:-?} ${cu:-?}"
+}
+
+first_readable() {
+    for f in "$@"; do
+        [ -r "$f" ] && { echo "$f"; return 0; }
+    done
+    return 1
+}
+
+do_paths() {
+    # Same paths t2fanrd uses.
+    fan=$(first_readable /sys/devices/pci*/*/*/*/APP0001:00/fan1_input) || fan=""
+    temp=$(first_readable /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input) || temp=""
+    echo "fan=$fan"
+    echo "temp=$temp"
+}
+
+# Applies key/value pairs to a copy and installs it only if something changed.
+apply() {
+    [ "$(id -u)" -eq 0 ] || die "must be run with sudo"
+    [ -f "$CONF" ] || die "$CONF not found (is t2fanrd installed?)"
+
+    exec 9>"$LOCK" || die "cannot create $LOCK"
+    flock -w 15 9 || die "another change is in progress"
+
+    for k in low_temp high_temp speed_curve always_full_speed; do
+        grep -Eq "^[[:space:]]*${k}[[:space:]]*=" "$CONF" || die "'$k' is missing in $CONF"
+    done
+
+    TMP=$(mktemp /etc/.t2fand.conf.XXXXXX) || die "cannot create a temporary file"
+    trap 'rm -f "$TMP"' EXIT
+    cp "$CONF" "$TMP"
+
+    while [ $# -ge 2 ]; do
+        sed -i -E "s/^([[:space:]]*${1}[[:space:]]*=).*/\1$2/" "$TMP"
+        shift 2
+    done
+
+    if cmp -s "$CONF" "$TMP"; then
+        return 0                       # already set: nothing to restart
+    fi
+
+    [ -e "$BACKUP" ] || cp -p "$CONF" "$BACKUP"
+    chown root:root "$TMP"
+    chmod 644 "$TMP"
+    mv -f "$TMP" "$CONF"
+    trap - EXIT
+
+    systemctl restart "$SERVICE" || die "could not restart $SERVICE"
+}
+
+do_restore() {
+    [ "$(id -u)" -eq 0 ] || die "must be run with sudo"
+    [ -f "$BACKUP" ] || { echo "No backup to restore."; return 0; }
+    cp -p "$BACKUP" "$CONF" && rm -f "$BACKUP"
+    systemctl restart "$SERVICE" || die "could not restart $SERVICE"
+    echo "Original $CONF restored."
+}
+
+[ $# -eq 1 ] || usage
+
+case "$1" in
+    on)      apply always_full_speed true ;;
+    off)     apply always_full_speed false ;;
+    strong)  apply always_full_speed false low_temp 40 high_temp 60 speed_curve logarithmic ;;
+    medium)  apply always_full_speed false low_temp 50 high_temp 75 speed_curve linear ;;
+    quiet)   apply always_full_speed false low_temp 60 high_temp 85 speed_curve exponential ;;
+    status)  do_status ;;
+    paths)   do_paths ;;
+    restore) do_restore ;;
+    version) echo "t2fan-control $VERSION" ;;
+    *)       usage ;;
+esac
