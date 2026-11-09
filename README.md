@@ -208,7 +208,7 @@ sudo t2fan-control restore    # bring back the original /etc/t2fand.conf
 | Panel shows `🌀 not installed` | Run `./install.sh` again. |
 | Panel shows `🌀 ?` | `/etc/t2fand.conf` is missing or unreadable: check `t2fanrd` (`systemctl status t2fanrd`). |
 | "Could not change the fan mode" notification | `sudo -n /usr/local/bin/t2fan-control off` must work without a password. Run `./install.sh` again. |
-| No temperature or RPM | Run `t2fan-control paths`. Both lines must contain a path. |
+| No temperature or RPM | Run `t2fan-control paths`. Both lines must contain a path. If `fan=` is empty after a kernel update, update the applet: `git pull && ./install.sh` (2.1.1 or later). |
 | Applet errors | `grep -i t2fan ~/.xsession-errors`, or open Looking Glass (`Alt+F2`, type `lg`) → Log. |
 
 ## Translations

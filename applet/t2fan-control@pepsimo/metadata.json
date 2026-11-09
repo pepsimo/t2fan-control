@@ -3,7 +3,7 @@
   "name": "T2 Fan (AUTO / MAX)",
   "description": "Fan control for Intel Macs with the Apple T2 chip running Linux (t2fanrd service): one click toggles AUTO and MAX, with Strong, Medium and Quiet AUTO profiles and live CPU temperature and fan RPM.",
   "comments": "Left click: AUTO ↔ MAX.\nRight click: AUTO profile, live readings and options.\n\nAUTO profiles:\n  Strong: 40–60 °C, logarithmic curve\n  Medium: 50–75 °C, linear curve\n  Quiet: 60–85 °C, exponential curve\n\nRequires t2fanrd (t2linux project) and Cinnamon.\nTested on a Mac mini 2018 (Macmini8,1) with Cinnamon 6.6.\n\nAuthor: pepsimo — https://www.pepsimo.es\nCo-author: Claude Opus 5.5 (Anthropic)\nSource code and documentation: https://github.com/pepsimo/t2fan-control\nLicense: GPL-3.0-or-later. No warranty of any kind.",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "contributors": "pepsimo (https://www.pepsimo.es), Claude Opus 5.5 (Anthropic)",
   "max-instances": 1
 }

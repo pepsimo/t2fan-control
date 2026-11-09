@@ -25,7 +25,7 @@ PATH=/usr/sbin:/usr/bin:/sbin:/bin
 export PATH
 umask 022
 
-VERSION=2.1.0
+VERSION=2.1.1
 CONF=/etc/t2fand.conf
 BACKUP=/etc/t2fand.conf.t2fan-control.bak
 SERVICE=t2fanrd
@@ -63,8 +63,19 @@ first_readable() {
 }
 
 do_paths() {
-    # Same paths t2fanrd uses.
-    fan=$(first_readable /sys/devices/pci*/*/*/*/APP0001:00/fan1_input) || fan=""
+    # The fan sensor hangs from the Apple SMC device (APP0001:00), where
+    # t2fanrd also finds it. Its exact place depends on the kernel driver:
+    #   older kernels (applesmc):  …/APP0001:00/fan1_input
+    #   newer kernels (macsmc):    …/APP0001:00/macsmc-hwmon/hwmon/hwmonN/fan1_input
+    # and the PCI depth may vary, so look in all of them before a bounded search.
+    fan=$(first_readable \
+            /sys/devices/pci*/*/APP0001:00/fan1_input \
+            /sys/devices/pci*/*/*/APP0001:00/fan1_input \
+            /sys/devices/pci*/*/*/*/APP0001:00/fan1_input \
+            /sys/devices/pci*/*/APP0001:00/*/hwmon/hwmon*/fan1_input \
+            /sys/devices/pci*/*/*/APP0001:00/*/hwmon/hwmon*/fan1_input \
+            /sys/devices/pci*/*/*/*/APP0001:00/*/hwmon/hwmon*/fan1_input) \
+      || fan=$(find /sys/devices -maxdepth 9 -path '*APP0001:00*' -name fan1_input 2>/dev/null | head -n 1)
     temp=$(first_readable /sys/devices/platform/coretemp.0/hwmon/hwmon*/temp1_input) || temp=""
     echo "fan=$fan"
     echo "temp=$temp"

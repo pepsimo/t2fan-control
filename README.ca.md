@@ -208,7 +208,7 @@ No es toca `t2fanrd`. Treu l'applet de la barra si encara es veu.
 | La barra mostra `🌀 no instal·lat` | Torna a executar `./install.sh`. |
 | La barra mostra `🌀 ?` | Falta `/etc/t2fand.conf` o no es pot llegir: revisa `t2fanrd` (`systemctl status t2fanrd`). |
 | Avís "No s'ha pogut canviar el mode del ventilador" | `sudo -n /usr/local/bin/t2fan-control off` ha de funcionar sense contrasenya. Torna a executar `./install.sh`. |
-| No surten la temperatura ni les RPM | Executa `t2fan-control paths`. Totes dues línies han de tenir una ruta. |
+| No surten la temperatura ni les RPM | Executa `t2fan-control paths`. Totes dues línies han de tenir una ruta. Si `fan=` surt buit després d'actualitzar el kernel, actualitza l'applet: `git pull && ./install.sh` (2.1.1 o posterior). |
 | Errors de l'applet | `grep -i t2fan ~/.xsession-errors`, o obre Looking Glass (`Alt+F2`, escriu `lg`) → Log. |
 
 ## Traduccions

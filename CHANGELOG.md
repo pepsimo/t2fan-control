@@ -3,6 +3,12 @@
 All notable changes to this project are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [2.1.1] — 2026-11-09
+
+### Fixed
+- Fan RPM missing in the panel on newer t2linux kernels (e.g. 7.3), where the fan sensor moved from `…/APP0001:00/fan1_input` (applesmc) to `…/APP0001:00/macsmc-hwmon/hwmon/hwmonN/fan1_input` (macsmc). `t2fan-control paths` now checks both places, at any PCI depth, with a bounded search as a last resort.
+- The applet looks for the sensors again if they stop answering (late at boot, or after a driver or kernel change), instead of staying without a reading until the next login.
+
 ## [2.1.0] — 2026-11-01
 
 ### Added

@@ -245,7 +245,11 @@ class T2FanApplet extends Applet.TextApplet {
     // ---------- Sensors ----------
 
     _findSensors() {
+        if (this._findingSensors) return;
+        this._findingSensors = true;
         spawn([HELPER, "paths"], (stdout, stderr, code) => {
+            this._findingSensors = false;
+            this._missedReads = 0;
             for (let line of (stdout || "").split("\n")) {
                 let m = line.match(/^(fan|temp)=(\/sys\/\S+)$/);
                 if (m) this._paths[m[1]] = m[2];
@@ -263,6 +267,14 @@ class T2FanApplet extends Applet.TextApplet {
         let t = readInt(this._paths.temp);
         this._temp = (t === null) ? null : Math.round(t / 1000);
         this._rpm = readInt(this._paths.fan);
+        // A sensor can appear late at boot or move after a kernel or driver
+        // change (hwmonN renumbered): look for it again every 15 failed reads.
+        if (this._temp === null || this._rpm === null) {
+            this._missedReads = (this._missedReads || 0) + 1;
+            if (this._missedReads >= 15) this._findSensors();
+        } else {
+            this._missedReads = 0;
+        }
     }
 
     _needTimer() {
